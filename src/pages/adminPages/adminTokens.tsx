@@ -1,15 +1,18 @@
 import React from 'react'
 import { useState } from 'react'
-import { useAppDispatch } from '../../redux/store'
+import {useSelector, useDispatch} from 'react-redux'
+import { AppDispatch, useAppDispatch } from '../../redux/store'
 import { createTokenAsnc } from '../../redux/token/tokenApis'
 import { tokenType } from '../../redux/token/tokenSlice'
-import { toast } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
 import { useFormik } from 'formik'
+import { RootState } from '../../redux/store'
 
 const adminTokens = () => {
 
-    const dispatch = useAppDispatch()
-
+    const errors = useSelector((state:RootState) => state.token.error)
+    const dispatch:AppDispatch = useDispatch()
+    
     const [showAddForm, setShowAddForm] = useState(false)
 
     const formik = useFormik({
@@ -31,19 +34,31 @@ const adminTokens = () => {
 
             const response = await dispatch(createTokenAsnc(newToken))
 
-            
-            if (response.type === "addTokenAsync/rejected") {
-                toast.error("Cannot create token.")
-                alert("Cannot create token")
-            } else {
-                toast.success("Token created!")
-                alert("Token created!")
-
+            const errormsg = localStorage.getItem('error')
+            if(errormsg && errormsg.length !== 0 || response.type === 'addTokenAsync/rejected')
+            {
+                await toast.error(errormsg)
             }
+            else
+            {
+                await toast.success("Token created!")
+            }
+                
         },
     });
 
   return (
+    <>
+    <ToastContainer position="top-center"
+        autoClose={2000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable={false}
+        pauseOnHover
+        theme="colored" />
     <div className="w-full flex flex-col bg-slate-100 border rounded-md shadow-md mt-36 container mx-auto p-5">
         <button className="w-32 text-lg m-3 px-4 py-3 bg-blue-700 hover:bg-blue-600 text-white font-semibold rounded-2xl" onClick={() => {setShowAddForm(!showAddForm)}}>{showAddForm?"Hide":"Add New+"}</button>
         {showAddForm && (
@@ -56,6 +71,7 @@ const adminTokens = () => {
             </form>
         )}
     </div>
+    </>
   )
 }
 

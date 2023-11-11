@@ -1,11 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getOrdersAsync, createOrderAsync } from './orederApis'
+import { getOrdersAsync, createOrderAsync, getOrdersByNameAsync } from './orederApis'
 
 export type orderType = {
     name: string,
     volume: number,
     price: number,
-    orderstime: Date,
+    orderstime: number,
+}
+
+export type volInfoType = {
+    volPercent:number,
+    volPrice: number
 }
 
 export type orderState = {
@@ -22,7 +27,7 @@ const initialState: orderState = {
 
 const ordersSlice = createSlice(
     {
-        name:"token",
+        name:"order",
         initialState,
         reducers:{},
         extraReducers: (builder) => {
@@ -31,11 +36,11 @@ const ordersSlice = createSlice(
                     state.isLoading = true
                 })
                 .addCase(getOrdersAsync.fulfilled, (state, action) => {
-                    state.isLoading = true,
+                    state.isLoading = true
                     state.allOrders = action.payload
                 })
                 .addCase(getOrdersAsync.rejected, (state, action) => {
-                    state.isLoading = true,
+                    state.isLoading = true
                     state.error = action.error.message
                 })
 
@@ -44,11 +49,22 @@ const ordersSlice = createSlice(
                     state.isLoading = true
                 })
                 .addCase(createOrderAsync.fulfilled, (state, action) => {
-                    state.isLoading = true,
-                    state.allOrders = action.payload
+                    state.isLoading = true
+                    const payload = action.payload
+
+                    if(payload.error)
+                    {
+                        state.error = payload.error
+                        localStorage.setItem('error', payload.error)
+                    }
+                    else{
+                        state.error =null
+                        localStorage.setItem('error', '')
+                        state.allOrders = payload
+                    }
                 })
                 .addCase(createOrderAsync.rejected, (state, action) => {
-                    state.isLoading = true,
+                    state.isLoading = true
                     state.error = action.error.message
                 })
         }

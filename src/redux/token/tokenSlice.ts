@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getTokensAsync, createTokenAsnc } from './tokenApis'
+import { getTokensAsync, createTokenAsnc, errorType } from './tokenApis'
 
 export type tokenType = {
     name: string,
@@ -12,13 +12,13 @@ export type tokenType = {
 export type tokenState = {
     alltokens: tokenType[] | [],
     isLoading: boolean,
-    error: null | string | undefined
+    error: string | null | undefined
 }
 
 const initialState: tokenState = {
     alltokens: [],
     isLoading: false,
-    error: null
+    error: localStorage.getItem('error') ? localStorage.getItem('error')! : null
 }
 
 const tokenSlice = createSlice(
@@ -32,11 +32,11 @@ const tokenSlice = createSlice(
                     state.isLoading = true
                 })
                 .addCase(getTokensAsync.fulfilled, (state, action) => {
-                    state.isLoading = true,
+                    state.isLoading = false
                     state.alltokens = action.payload
                 })
                 .addCase(getTokensAsync.rejected, (state, action) => {
-                    state.isLoading = true,
+                    state.isLoading = false
                     state.error = action.error.message
                 })
 
@@ -45,12 +45,24 @@ const tokenSlice = createSlice(
                     state.isLoading = true
                 })
                 .addCase(createTokenAsnc.fulfilled, (state, action) => {
-                    state.isLoading = true,
-                    state.alltokens = action.payload
+                    state.isLoading = false
+                    const payload = action.payload
+                    if(payload.error)
+                    {
+                        state.error = payload.error
+                        localStorage.setItem('error', payload.error)
+                    }
+                    else{
+                        state.error =null
+                        localStorage.setItem('error', '')
+                        state.alltokens = payload
+                    }
                 })
                 .addCase(createTokenAsnc.rejected, (state, action) => {
-                    state.isLoading = true,
+                    state.isLoading = false
                     state.error = action.error.message
+                    console.log("In rejected")
+                    console.log(state.error)
                 })
         }
     }
