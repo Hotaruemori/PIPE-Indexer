@@ -10,7 +10,9 @@ export type orderType = {
 
 export type volInfoType = {
     volPercent:number,
-    volPrice: number
+    volPrice: number,
+    recentPrice:number,
+    recentSaleCount:number
 }
 
 export type orderState = {

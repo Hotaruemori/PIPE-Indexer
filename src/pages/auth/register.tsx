@@ -76,7 +76,7 @@ const RegisterPage = () => {
         
         <button className="bg-indigo-700 text-white py-3 px-4 rounded-md shadow-md shadow-indigo-400 text-xl mb-6 mt-10" type="submit">Register</button>
 
-        <Link to="/" className="bg-none text-indigo-800 border-b-2 border-indigo-800 py-1 px-4 text-md mb-6 mt-1">Login Page</Link>
+        <Link to="/admin" className="bg-none text-indigo-800 border-b-2 border-indigo-800 py-1 px-4 text-md mb-6 mt-1">Login Page</Link>
     </form>
     </>
   )

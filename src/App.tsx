@@ -13,18 +13,20 @@ import { store } from './redux/store'
 
 const path = window.location.pathname
 
+window.document.body.className = "dark:bg-slate-700"
+
 const App = () => {
   return (
     <Provider store={store}>
       <Router>
-        { path!=="/" && path!=="/register" ? <Header /> : <></>}
+        { path!=="/admin" && path!=="/register" ? <Header /> : <></>}
         <Routes>
-          <Route path="/homePage" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/recentOrders" element={<RecentOrders />} />
           
           <Route path="/admin/tokens" element={<AdminTokens />} />
           <Route path="/admin/sales" element={<AdminSales />} />
-          <Route path="/" element={<LoginPage/> } />
+          <Route path="/admin" element={<LoginPage/> } />
           <Route path="/register" element={<RegisterPage/> } />
         </Routes>
       </Router>

@@ -34,7 +34,7 @@ const adminSales = () => {
             const newOrder: orderType = {
                 name: name,
                 volume: Number.parseInt(values.volume),
-                price: Number.parseInt(values.price),
+                price: Number.parseFloat(values.price),
                 orderstime: ordertime
             }
 
@@ -68,12 +68,12 @@ const adminSales = () => {
     <div className="w-full flex flex-col bg-slate-100 border rounded-md shadow-md mt-36 container mx-auto p-5">
           <form className="flex flex-row bg-cyan-200 border rounded-md w-full overflow-auto p-4" onSubmit={formik.handleSubmit}>
               <span className=" justify-end font-semibold ml-3">Token:&nbsp; 
-              <select className="text-lg w-40 border rounded-md p-1" value={name} onChange={(e) => setT(e.target.value)} name="name">
-              <option value="" hidden></option>
-                {alltokens.map((item, index) => (
-                    <option key={index} value={item.name}>{item.name}</option>
-                )) 
-                }
+              <select className="text-lg w-40 border rounded-md p-1 overflow-y-auto" value={name} onChange={(e) => setT(e.target.value)} name="name">
+                <option className="overflow-y-scroll" value="" hidden></option>
+                  {alltokens.map((item, index) => (
+                      <option className="overflow-y-scroll" key={index} value={item.name}>{item.name}</option>
+                  )) 
+                  }
               </select>
               </span>
               <span className=" justify-end font-semibold ml-3">Count:&nbsp; <input className="text-lg w-40 border rounded-md p-1" type="text" value={formik.values.volume} onChange={formik.handleChange} name="volume" placeholder='Token counts To Sell'></input></span>

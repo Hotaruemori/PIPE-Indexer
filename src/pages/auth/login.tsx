@@ -33,7 +33,7 @@ const LoginPage = () => {
                 setTimeout(() => {
                     const curUser = JSON.parse(localStorage.getItem("user")!)
                     if(curUser.username !== "admin")
-                        navigate("/homePage")
+                        navigate("/")
                     else
                         navigate("/admin/tokens")
                     window.location.reload()
