@@ -24,7 +24,7 @@ const userSlice = createSlice(
         initialState,
         reducers:{
             logOut: (state, action: PayloadAction<void, string>) => {
-                localStorage.removeItem('user');
+                localStorage.removeItem('user')
                 state.user = undefined
             }
         },

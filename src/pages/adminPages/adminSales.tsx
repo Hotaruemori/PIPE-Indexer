@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from '../../redux/store'
+import { useSelector, useDispatch } from 'react-redux'
+import { AppDispatch, useAppDispatch, useAppSelector } from '../../redux/store'
 import { getTokensAsync } from '../../redux/token/tokenApis'
 import { toast, ToastContainer } from 'react-toastify'
 import { useFormik } from 'formik'
@@ -10,8 +11,8 @@ import { RootState } from '../../redux/store'
 
 const adminSales = () => {
 
-    const alltokens = useAppSelector((state:RootState) => state.token.alltokens)
-    const dispatch = useAppDispatch()
+    const alltokens = useSelector((state:RootState) => state.token.alltokens)
+    const dispatch:AppDispatch = useDispatch()
     const [name, setName] = useState("")
 
     useEffect(() => {
@@ -48,7 +49,7 @@ const adminSales = () => {
             }
             else
             {
-                await toast.success("Token created!")
+                await toast.success("Sale confirmed!")
             }
         },
     })
@@ -65,22 +66,24 @@ const adminSales = () => {
         draggable={false}
         pauseOnHover
         theme="colored" />
-    <div className="w-full flex flex-col bg-slate-100 border rounded-md shadow-md mt-36 container mx-auto p-5">
-          <form className="flex flex-row bg-cyan-200 border rounded-md w-full overflow-auto p-4" onSubmit={formik.handleSubmit}>
-              <span className=" justify-end font-semibold ml-3">Token:&nbsp; 
-              <select className="text-lg w-40 border rounded-md p-1 overflow-y-auto" value={name} onChange={(e) => setT(e.target.value)} name="name">
-                <option className="overflow-y-scroll" value="" hidden></option>
-                  {alltokens.map((item, index) => (
-                      <option className="overflow-y-scroll" key={index} value={item.name}>{item.name}</option>
-                  )) 
-                  }
-              </select>
-              </span>
-              <span className=" justify-end font-semibold ml-3">Count:&nbsp; <input className="text-lg w-40 border rounded-md p-1" type="text" value={formik.values.volume} onChange={formik.handleChange} name="volume" placeholder='Token counts To Sell'></input></span>
-              <span className=" justify-end font-semibold ml-3">Price:&nbsp; <input className="text-lg w-40 border rounded-md p-1" type="text" value={formik.values.price} onChange={formik.handleChange} name="price" placeholder='Price of Token'></input></span>
-              <input type="submit" className="w-52 align-middle text-lg bg-green-700 hover:bg-green-600 text-white font-semibold rounded-2xl ml-5" value="Confirm Sale"></input>
-          </form>
-    </div>
+        <div className="dark:bg-slate-700">
+          <div className="w-full flex flex-col bg-slate-100 dark:bg-slate-800 rounded-md shadow-md mt-36 container mx-auto p-5">
+              <form className="flex flex-row bg-cyan-200 dark:text-white rounded-md w-full overflow-auto p-4 dark:bg-slate-800" onSubmit={formik.handleSubmit}>
+                  <span className=" justify-end font-semibold ml-6">Token:&nbsp; 
+                  <select className="text-lg w-52 border rounded-md p-1 overflow-y-auto dark:text-black" placeholder="Select token name" value={name} onChange={(e) => setT(e.target.value)} name="name">
+                    <option className="overflow-y-scroll" value="" hidden></option>
+                      {alltokens.map((item, index) => (
+                          <option className="overflow-y-scroll" key={index} value={item.name}>{item.name}</option>
+                      )) 
+                      }
+                  </select>
+                  </span>
+                  <span className=" justify-end font-semibold ml-6">Count:&nbsp; <input className="text-lg w-52 dark:text-black border rounded-md p-1" type="text" value={formik.values.volume} onChange={formik.handleChange} name="volume" placeholder='Token counts To Sell'></input></span>
+                  <span className=" justify-end font-semibold ml-6">Price:&nbsp; <input className="text-lg w-52 dark:text-black border rounded-md p-1" type="text" value={formik.values.price} onChange={formik.handleChange} name="price" placeholder='Price of Token'></input></span>
+                  <input type="submit" className="w-52 align-middle text-lg bg-green-700 hover:bg-green-600 text-white font-semibold rounded-2xl ml-10" value="Confirm Sale"></input>
+              </form>
+        </div>
+      </div>
     </>
   )
 }

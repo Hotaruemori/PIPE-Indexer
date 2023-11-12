@@ -41,7 +41,7 @@ const Header = () => {
       <div className="fixed justify-end right-40 flex"><DarkModeSwitcher /></div>
       {
         path.includes('admin') ? <div className='fixed right-10 justify-end flex'>
-        <button onClick={(e) => handleSign()} className="text-2xl bg-none border-b-2 border-slate-800 text-right">{ isAuthenticated ? "Sign Out" : "Sign In"}</button>
+        <button onClick={(e) => handleSign()} className="text-2xl bg-none border-b-2 border-slate-800 dark:border-gray-200 pb-1 dark:text-gray-200 text-right">{ isAuthenticated ? "Sign Out" : "Sign In"}</button>
         </div> : ""
       }
       
