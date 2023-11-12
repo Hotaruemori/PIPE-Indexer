@@ -3,10 +3,9 @@ import { AppDispatch, RootState, useAppSelector } from '../../redux/store';
 
 interface totalMarketCapProps {
     count: number,
-    totalMarketCap: number
 }
 
-const TotalCapView: React.FC<totalMarketCapProps> = ({count, totalMarketCap}) => {
+const TotalCapView: React.FC<totalMarketCapProps> = ({count}) => {
     
   return (
     <div className="w-full grow px-6">
@@ -18,11 +17,11 @@ const TotalCapView: React.FC<totalMarketCapProps> = ({count, totalMarketCap}) =>
             </div>
             <div className="mb-2 flex items-center">
                 <p className="flex w-1/2 justify-end text-3xl font-extrabold pr-3">Market Caps: </p>
-                <span className="text-3xl font-bold text-blue-600">${ Number(totalMarketCap).toLocaleString("en-US") }</span>
+                <span className="text-3xl font-bold text-blue-600">${ localStorage.getItem("totalCap") }</span>
             </div>
             <div className="mb-2 flex items-center">
                 <p className="flex w-1/2 justify-end text-3xl font-extrabold pr-3">Trading Volumes: </p>
-                <span className="text-3xl font-bold text-blue-600">$123123123</span>
+                <span className="text-3xl font-bold text-blue-600">${ localStorage.getItem("tradingVol") } </span>
             </div>
         </div>
     </div>
